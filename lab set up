@@ -12,7 +12,7 @@ prerequisites
 *******************************************************************************************************************
 Step 1 : Pre-requisites  - in all 3 machines
 Step 2 : Install vim package in all 3 machines
-Step 3:  DNS Setup (or) Ensure you have all 3 machines DNS is working	
+Step 3:  DNS Setup (or) Ensure you have all 3 machines DNS is working	(not required if we are using cloud)
 Step 4:  SSH connection need to be enabled if you are using cloud machines
 Step 5:  Create user called ansible in all machines
 Step 6:  Login to all servers and enable sudo permission for ansible user with no password
