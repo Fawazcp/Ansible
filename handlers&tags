@@ -92,6 +92,45 @@ vim httpd.yaml
 
 tags
 
+---
+- name: I am going to install packages and start the service using handler.
+  hosts: all
+  tasks:
+   - name: install httpd
+     yum:
+      name: httpd
+      state: latest
+     tags:
+      - httpd
+   - name: download httpd.conf
+     get_url:
+      url: https://pepa.holla.cz/wp-content/uploads/2016/12/Ansible.pdf
+      dest: /var/www/html/ansible2.pdf
+      mode: 0644
+     notify:
+      - restart httpd
+     tags:
+      - httpd
+   - name: install vsftpd
+     yum:
+      name: vsftpd
+      state: latest
+     tags:
+      - vsftpd
+   - name: restart vsftpd
+     service:
+      name: vsftpd
+      state: restarted
+     tags:
+      - vsftpd
+  handlers:
+   - name: restrt httpd
+     service:
+      name: httpd
+      state: restarted
+      enabled: yes
+      
+      
 ansible-playbook <playbook name>  --list-tags
 
 ansible-playbook <playbook name>   --tags 
