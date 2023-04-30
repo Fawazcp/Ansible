@@ -133,7 +133,7 @@ tags
       
 ansible-playbook <playbook name>  --list-tags
 
-ansible-playbook <playbook name>   --tags 
+ansible-playbook <playbook name>   --tags=<tag_name> 
 
 ansible-playbook <playbook name>   --list-tasks
 
