@@ -124,7 +124,7 @@ tags
      tags:
       - vsftpd
   handlers:
-   - name: restrt httpd
+   - name: restart httpd
      service:
       name: httpd
       state: restarted
