@@ -85,6 +85,14 @@ vim httpd.yaml
 Step 4:  Sample Playbook 4
 
 ansible module - Group
+---
+- name: I want to create users and groups
+  hosts: all
+  tasks:
+   - name: create group1
+     group:
+      name: cloudnloud
+      state: present
 
 *******************************************************************************************************************
 
@@ -92,6 +100,17 @@ Step 5:  Sample Playbook 5
 
 
 ansible module - user
+
+---
+- name: I want to create users and groups
+  hosts: all
+  tasks:
+   - name: create users
+     user:
+      name: fawaz
+      comment: admin
+      group: cloudnloud
+
 
 *******************************************************************************************************************
 Step 6:  Sample Playbook 6
