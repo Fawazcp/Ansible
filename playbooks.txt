@@ -109,7 +109,7 @@ ansible module - user
      user:
       name: fawaz
       comment: admin
-      group: cloudnloud
+      groups: cloudnloud
 
 
 *******************************************************************************************************************
