@@ -1,0 +1,103 @@
+To start this handson lab,you need following resources.
+
+Handler :
+
+Sometimes you want a task to run only when a change is made on a machine. 
+For example, you may want to restart a service if a task updates the configuration of that service, but not if the configuration is unchanged. Ansible uses handlers to address this use case. Handlers are tasks that only run when notified.
+
+What are the tags in Ansible?
+
+Image result for tags in ansible
+A tag is an attribute that you can set to an Ansible structure (plays, roles, tasks), and then when you run a playbook you can use –tags or –skip-tags to execute a subset of tasks.
+
+*******************************************************************************************************************
+prerequisites
+
+1.	server.cnl.com – 1 CPU – 1GB RAM (Python 2.7) - Ansible Server
+2.	node1.cnl.com – 1 CPU – 1GB RAM ( python 2.6 and above) - Ansible Client 1
+3.	node2.cnl.com – 1 CPU – 1GB RAM ( python 2.6 and above) - Ansible Client 2
+
+from ansible server login as an ansible user as per class 4.From ansible user execute below command
+
+ansible all -m ping
+
+this above ping command should return with ping / pong green color.
+
+*******************************************************************************************************************
+...
+  handlers:
+    - name: Restart Nginx
+      service:
+        name: nginx
+        state: restarted
+		
+		
+*******************************************************************************************************************
+		
+
+
+handler playbook
+
+vim httpd.yaml
+---
+- name: install httpd
+  hosts: all
+  tasks:
+   - name: install httpd
+     yum:
+      name: httpd
+      state: latest
+     notify:
+      - restart web service
+  handlers:
+   - name: restart web service
+     service:
+      name: httpd
+      state: restarted
+	   
+
+**************************************************************************************************************************************************
+---
+- name: httpd install
+  hosts: node1,node2
+  tasks:
+   - name: httpd install
+     yum:
+      name: httpd
+      state: latest
+   - name: httpd service start
+     service:
+      name: httpd
+      state: started
+   - name: enable the service
+     service:
+      name: httpd
+      enabled: yes
+   - name: download the httpd.conf
+     get_url:
+      url: https://pepa.holla.cz/wp-content/uploads/2016/12/Ansible.pdf
+      dest: /var/www/html/ansible.pdf
+      mode: 0644
+     notify:
+      - restart httpd
+  handlers:
+   - name: restart httpd
+     service:
+      name: httpd
+      state: restarted
+	  
+
+*******************************************************************************************************************
+
+
+tags
+
+ansible-playbook <playbook name>  --list-tags
+
+ansible-playbook <playbook name>   --tags 
+
+ansible-playbook <playbook name>   --list-tasks
+
+ansible-playbook <playbook name>   --skip-tags
+
+ansible-playbook <playbook name>  --step
