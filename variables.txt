@@ -60,8 +60,6 @@ vim vsftpd.yaml
 ---
 - name: installing packages
   hosts: all
-  vars:
-   - websoft: httpd
   tasks:
    - name: install {{ websoft }}
      yum:
