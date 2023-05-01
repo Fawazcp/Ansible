@@ -1,0 +1,162 @@
+To start this handson lab,you need following resources.
+
+*******************************************************************************************************************
+prerequisites
+
+1.	server.cnl.com – 1 CPU – 1GB RAM (Python 2.7) - Ansible Server
+2.	node1.cnl.com – 1 CPU – 1GB RAM ( python 2.6 and above) - Ansible Client 1
+3.	node2.cnl.com – 1 CPU – 1GB RAM ( python 2.6 and above) - Ansible Client 2
+
+from ansible server login as an ansible user as per class 4.From ansible user execute below command
+
+ansible all -m ping
+
+this above ping command should return with ping / pong green color.
+
+*******************************************************************************************************************
+Inventory Grouping
+
+node1 --> Dev Group
+
+node2 --> Prod Group
+
+Install httpd in production group of servers only and restart service also in production servers only
+
+vim httpd.yaml
+---
+- name: install httpd
+  hosts: prod
+  tasks:
+   - name: install httpd
+     yum:
+      name: httpd
+      state: latest
+   - name: restart web service
+     service:
+      name: httpd
+      state: restarted
+		
+*******************************************************************************************************************
+		
+
+
+Inventory Grouping
+
+node1 --> Dev Group
+
+node2 --> Prod Group
+
+Install httpd in production group of servers only and restart service also in production servers only
+
+vim httpd.yaml
+---
+- name: install httpd
+  hosts: dev
+  tasks:
+   - name: install httpd
+     yum:
+      name: httpd
+      state: latest
+   - name: restart web service
+     service:
+      name: httpd
+      state: restarted
+
+**************************************************************************************************************************************************
+Inventory Grouping
+
+node1 --> Dev Group
+
+node2 --> Prod Group
+
+Install httpd in production,dev group of servers and restart service also in both dev & production servers.
+
+vim httpd.yaml
+---
+- name: install httpd
+  hosts: prod,dev
+  tasks:
+   - name: install httpd
+     yum:
+      name: httpd
+      state: latest
+   - name: restart web service
+     service:
+      name: httpd
+      state: restarted
+	  
+
+*******************************************************************************************************************
+
+Inventory Grouping
+
+node1 --> Dev Group
+
+node2 --> Prod Group
+
+Install httpd in production group and node2 machine only
+
+vim httpd.yaml
+---
+- name: install httpd
+  hosts: prod,node2
+  tasks:
+   - name: install httpd
+     yum:
+      name: httpd
+      state: latest
+   - name: restart web service
+     service:
+      name: httpd
+      state: restarted
+
+*******************************************************************************************************************
+
+Inventory Grouping
+
+node1 --> Dev Group
+
+node2 --> Prod Group
+
+Install all the plays into all the servers which are listed out in the inventory file.But only one play (or) task must be executed in prod group only
+
+vim httpd.yaml
+---
+- name: install httpd
+  hosts: all
+  tasks:
+   - name: install httpd
+     yum:
+      name: httpd
+      state: latest
+     when: inventory_hostname in groups ['prod']
+   - name: restart web service
+     service:
+      name: httpd
+      state: restarted
+      
+      
+*******************************************************************************************************************
+
+Inventory Grouping
+
+node1 --> Dev Group
+
+node2 --> Prod Group
+
+Install all the plays into all the servers which are listed out in the inventory file.But only one play (or) task must be executed in prod group and dev group only
+
+vim httpd.yaml
+---
+- name: install httpd
+  hosts: all
+  tasks:
+   - name: install httpd
+     yum:
+      name: httpd
+      state: latest
+     when: inventory_hostname in groups ['prod']
+   - name: restart web service
+     service:
+      name: httpd
+      state: restarted
